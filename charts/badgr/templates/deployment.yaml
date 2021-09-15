@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "badgr.fullname" . }}
+  labels:
+    {{- include "badgr.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      {{- include "badgr.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "badgr.selectorLabels" . | nindent 8 }}
+      {{- if .Values.tls.enabled }}
+      annotations:
+        checksum/cert-secret: {{ include (print $.Template.BasePath "/cert-secret.yaml") . | sha256sum }}
+      {{- end }}
+    spec:
+      containers:
+      - name: badgr
+        image: {{ .Values.image.repository }}:{{ default .Chart.AppVersion .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: TLS_ENABLED
+          value: {{ quote .Values.tls.enabled }}
+        {{- if .Values.tls.enabled }}
+        - name: TLS_CERT_PATH
+          value: /app/certs/tls.crt
+        - name: TLS_KEY_PATH
+          value: /app/certs/tls.key
+        {{- end }}
+        - name: REDIS_HOST
+          value: {{ printf "%s-master" (include "call-nested" (list . "redis" "common.names.fullname")) }}.{{ .Release.Namespace }}.svc.cluster.local
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "call-nested" (list . "redis" "common.names.fullname") }}
+              key: redis-password
+        - name: REDIS_ENABLE_TLS
+          value: {{ quote .Values.redis.tls.enabled }}
+        {{- if .Values.tls.enabled }}
+        volumeMounts:
+        - name: cert
+          mountPath: /app/certs
+          readOnly: true
+        {{- end }}
+        livenessProbe:
+          httpGet:
+            port: 8080
+            path: /healthz
+            {{- if .Values.tls.enabled }}
+            scheme: HTTPS
+            {{- end }}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            port: 8080
+            path: /healthz
+            {{- if .Values.tls.enabled }}
+            scheme: HTTPS
+            {{- end }}
+          initialDelaySeconds: 10
+          periodSeconds: 10
+      {{- if .Values.tls.enabled }}
+      volumes:
+      - name: cert
+        secret:
+          secretName: {{ include "badgr.fullname" . }}-cert
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

@@ -1,0 +1,16 @@
+apiVersion: v2
+name: badgr
+description: |
+  Badgr
+type: application
+version: 0.1.0
+appVersion: v0.1.0
+sources:
+- https://github.com/brigadecore/badgr
+maintainers:
+- name: The Brigade Maintainers
+  email: cncf-brigade-maintainers@lists.cncf.io
+dependencies:
+- name: redis
+  version: 15.3.2
+  repository: https://charts.bitnami.com/bitnami
