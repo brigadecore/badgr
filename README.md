@@ -28,7 +28,7 @@ Prerequisites:
 
 * A Kubernetes cluster for which you have the `admin` cluster role
 
-* `kubectl` and `helm`
+* `kubectl` and `helm` (commands below require Helm 3.7.0+)
 
 ### 1. Install Badgr
 
@@ -40,7 +40,7 @@ experimental feature goes away, or isn't working like we'd hope, we will revisit
 this choice before going GA.
 
 First, be sure you are using
-[Helm 3.7.0-rc.3](https://github.com/helm/helm/releases/tag/v3.7.0-rc.3) and
+[Helm 3.7.0](https://github.com/helm/helm/releases/tag/v3.7.0) or greater and
 enable experimental OCI support:
 
 ```console
