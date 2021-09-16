@@ -39,7 +39,7 @@ ifneq ($(SKIP_DOCKER),true)
 		-w /workspaces/badgr \
 		$(KANIKO_IMAGE)
 
-	HELM_IMAGE := brigadecore/helm-tools:v0.3.0
+	HELM_IMAGE := brigadecore/helm-tools:v0.4.0
 
 	HELM_DOCKER_CMD := docker run \
 	  -it \
