@@ -9,11 +9,29 @@ various project statuses in our READMEs, but it doesn't support something we
 wanted badly-- the ability to generate a badge based on the results of a GitHub
 check suite associated with a specific GitHub App.
 
-Badgr is a simple server that, given a repo owner, repo name, and optional
-branch name, can query for and consolidate GitHub check suite results and then
-delegate to [shields.io](https://shields.io/) to generate the corresponding
-badge. If a GitHub App ID is also specified, the badge will reflect _only_ 
-the results of check suites associates with that App.
+Given a repo owner, repo name, and optional branch name, Badgr queries for
+GitHub check suite results, consolidates them into a single status (by selecting
+the "most severe"<sup>*</sup> among the results), then delegates to
+[shields.io](https://shields.io/) to serve the corresponding badge. If a GitHub
+App ID is also specified, the badge will reflect _only_ the results of check
+suites associates with that App.
+
+<sup>*</sup>Here is how Badgr evaluates check suite severity, from least severe
+to most:
+
+* __Passed:__ Check suite has run to completion and succeeded.
+* __In Progress:__ One or more checks in the check suite have progressed past
+  the queued state, but not all checks are complete.
+* __Queued:__ No check in the check suite is either complete or in progress.
+* __Neutral:__ Check suite has run to completion and neither failed nor
+  succeeded.
+* __Canceled:__ Check suite has been voluntarily terminated by a user or some
+  other process.
+* __Action Required:__ Check suite has run to completion but some action is
+  required from a user.
+* __Timed Out:__ Check suite has timed out.
+* __Failed:__ Check suite has run to completion and failed.
+* __Unknown:__ Badgr has been unable to determine the check suite's status.
 
 Badgr also uses Redis to cache results to avoid getting rate limited by the
 GitHub Checks API. The cache is composed of warm and cold layers. The warm layer
