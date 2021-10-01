@@ -73,7 +73,7 @@ a file you can modify:
 
 ```console
 $ helm inspect values oci://ghcr.io/brigadecore/badgr \
-    --version v0.1.0 > ~/badgr-values.yaml
+    --version v1.0.0 > ~/badgr-values.yaml
 ```
 
 Edit `~/badgr-values.yaml`, making the following changes:
@@ -85,7 +85,7 @@ install the gateway using the above customizations:
 
 ```console
 $ helm install badgr oci://ghcr.io/brigadecore/badgr \
-    --version v0.1.0 \
+    --version v1.0.0 \
     --create-namespace \
     --namespace badgr \
     --values ~/badgr-values.yaml
