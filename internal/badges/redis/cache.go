@@ -45,6 +45,7 @@ func NewCache(config CacheConfig) badges.Cache {
 	}
 	if config.RedisEnableTLS {
 		redisOpts.TLSConfig = &tls.Config{
+			MinVersion: tls.VersionTLS13,
 			ServerName: config.RedisHost,
 		}
 	}
