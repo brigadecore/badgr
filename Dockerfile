@@ -1,7 +1,9 @@
-FROM brigadecore/go-tools:v0.4.0
+FROM --platform=$BUILDPLATFORM brigadecore/go-tools:v0.4.0 as builder
 
 ARG VERSION
 ARG COMMIT
+ARG TARGETOS
+ARG TARGETARCH
 ENV CGO_ENABLED=0
 
 WORKDIR /
@@ -9,12 +11,12 @@ COPY . /
 COPY go.mod go.mod
 COPY go.sum go.sum
 
-RUN go build \
+RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build \
   -o bin/badgr \
   -ldflags "-w -X github.com/brigadecore/brigade-foundations/version.version=$VERSION -X github.com/brigadecore/brigade-foundations/version.commit=$COMMIT" \
   .
 
 FROM scratch
-COPY --from=0 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
-COPY --from=0 /bin/ /badgr/bin/
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=builder /bin/ /badgr/bin/
 ENTRYPOINT ["/badgr/bin/badgr"]
