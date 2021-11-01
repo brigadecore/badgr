@@ -14,7 +14,8 @@ func TestNewCache(t *testing.T) {
 	const testPrefix = "foo"
 	c := NewCache(
 		CacheConfig{
-			RedisPrefix: testPrefix,
+			RedisPrefix:    testPrefix,
+			RedisEnableTLS: true,
 		},
 	)
 	require.Equal(t, testPrefix, c.(*cache).prefix)

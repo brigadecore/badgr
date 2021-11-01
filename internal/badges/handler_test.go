@@ -31,7 +31,7 @@ func TestHandlerServeHTTP(t *testing.T) {
 	testCases := []struct {
 		name       string
 		handler    *handler
-		assertions func(*httptest.ResponseRecorder)
+		assertions func(*http.Response)
 	}{
 		{
 			name: "warm cache hit",
@@ -42,13 +42,9 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
-				require.Equal(
-					t,
-					badgeURL(testBadge),
-					rr.Result().Header.Get("Location"),
-				)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
+				require.Equal(t, badgeURL(testBadge), r.Header.Get("Location"))
 			},
 		},
 		{
@@ -73,13 +69,9 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
-				require.Equal(
-					t,
-					badgeURL(testBadge),
-					rr.Result().Header.Get("Location"),
-				)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
+				require.Equal(t, badgeURL(testBadge), r.Header.Get("Location"))
 			},
 		},
 		{
@@ -104,12 +96,12 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
 				require.Equal(
 					t,
 					badgeURL(NewErrBadge(http.StatusInternalServerError)),
-					rr.Result().Header.Get("Location"),
+					r.Header.Get("Location"),
 				)
 			},
 		},
@@ -135,12 +127,12 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
 				require.Equal(
 					t,
 					badgeURL(NewErrBadge(http.StatusInternalServerError)),
-					rr.Result().Header.Get("Location"),
+					r.Header.Get("Location"),
 				)
 			},
 		},
@@ -166,13 +158,9 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
-				require.Equal(
-					t,
-					badgeURL(testBadge),
-					rr.Result().Header.Get("Location"),
-				)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
+				require.Equal(t, badgeURL(testBadge), r.Header.Get("Location"))
 			},
 		},
 		{
@@ -197,13 +185,9 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
-				require.Equal(
-					t,
-					badgeURL(testBadge),
-					rr.Result().Header.Get("Location"),
-				)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
+				require.Equal(t, badgeURL(testBadge), r.Header.Get("Location"))
 			},
 		},
 		{
@@ -228,13 +212,9 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
-				require.Equal(
-					t,
-					badgeURL(testBadge),
-					rr.Result().Header.Get("Location"),
-				)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
+				require.Equal(t, badgeURL(testBadge), r.Header.Get("Location"))
 			},
 		},
 		{
@@ -259,12 +239,12 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
 				require.Equal(
 					t,
 					badgeURL(NewErrBadge(http.StatusInternalServerError)),
-					rr.Result().Header.Get("Location"),
+					r.Header.Get("Location"),
 				)
 			},
 		},
@@ -290,12 +270,12 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
 				require.Equal(
 					t,
 					badgeURL(NewErrBadge(http.StatusInternalServerError)),
-					rr.Result().Header.Get("Location"),
+					r.Header.Get("Location"),
 				)
 			},
 		},
@@ -321,13 +301,9 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
-				require.Equal(
-					t,
-					badgeURL(testBadge),
-					rr.Result().Header.Get("Location"),
-				)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
+				require.Equal(t, badgeURL(testBadge), r.Header.Get("Location"))
 			},
 		},
 		{
@@ -352,13 +328,9 @@ func TestHandlerServeHTTP(t *testing.T) {
 					},
 				},
 			},
-			assertions: func(rr *httptest.ResponseRecorder) {
-				require.Equal(t, http.StatusSeeOther, rr.Result().StatusCode)
-				require.Equal(
-					t,
-					badgeURL(testBadge),
-					rr.Result().Header.Get("Location"),
-				)
+			assertions: func(r *http.Response) {
+				require.Equal(t, http.StatusSeeOther, r.StatusCode)
+				require.Equal(t, badgeURL(testBadge), r.Header.Get("Location"))
 			},
 		},
 	}
@@ -371,7 +343,7 @@ func TestHandlerServeHTTP(t *testing.T) {
 			).Methods(http.MethodGet)
 			rr := httptest.NewRecorder()
 			testRouter.ServeHTTP(rr, testRequest)
-			testCase.assertions(rr)
+			testCase.assertions(rr.Result()) // nolint: bodyclose
 		})
 	}
 }
