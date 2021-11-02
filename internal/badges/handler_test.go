@@ -343,7 +343,9 @@ func TestHandlerServeHTTP(t *testing.T) {
 			).Methods(http.MethodGet)
 			rr := httptest.NewRecorder()
 			testRouter.ServeHTTP(rr, testRequest)
-			testCase.assertions(rr.Result()) // nolint: bodyclose
+			res := rr.Result()
+			defer res.Body.Close()
+			testCase.assertions(res)
 		})
 	}
 }
