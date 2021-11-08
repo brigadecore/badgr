@@ -3,6 +3,7 @@
 ![badgr](https://badgr.brigade2.io/v1/github/checks/brigadecore/badgr/badge.svg?appID=99005)
 [![codecov](https://codecov.io/gh/brigadecore/badgr/branch/main/graph/badge.svg?token=N1SQx2TZt0)](https://codecov.io/gh/brigadecore/badgr)
 [![Go Report Card](https://goreportcard.com/badge/github.com/brigadecore/badgr)](https://goreportcard.com/report/github.com/brigadecore/badgr)
+[![slack](https://img.shields.io/badge/slack-brigade-brightgreen.svg?logo=slack)](https://kubernetes.slack.com/messages/C87MF1RFD)
 
 Badgr's creators love using [shields.io](https://shields.io/), for displaying
 various project statuses in our READMEs, but it doesn't support something we
