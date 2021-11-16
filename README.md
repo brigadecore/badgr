@@ -81,6 +81,10 @@ Edit `~/badgr-values.yaml`, making the following changes:
 
 * `host`: Set this to the host name where you'd like Badgr to be accessible.
 
+* `service.type`: If you plan to enable ingress (advanced), you can leave this
+  as its default -- `ClusterIP`. If you do not plan to enable ingress, you
+  probably will want to change this value to `LoadBalancer`.
+
 Save your changes to `~/badgr-values.yaml` and use the following command to
 install the gateway using the above customizations:
 
@@ -89,13 +93,15 @@ $ helm install badgr oci://ghcr.io/brigadecore/badgr \
     --version v1.0.0 \
     --create-namespace \
     --namespace badgr \
-    --values ~/badgr-values.yaml
+    --values ~/badgr-values.yaml \
+    --wait \
+    --timeout 300s
 ```
 
 ### 2. (RECOMMENDED) Create a DNS Entry
 
-If you installed the gateway without enabling support for an ingress controller,
-this command should help you find the gateway's public IP address:
+If you overrode defaults and set `service.type` to `LoadBalancer`, use this
+command to find the gateway's public IP address:
 
 ```console
 $ kubectl get svc badgr \
