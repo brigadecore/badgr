@@ -12,9 +12,10 @@ import (
 )
 
 func TestNewHandler(t *testing.T) {
-	h := NewHandler(&service{}, &mockCache{})
-	require.NotNil(t, h.(*handler).service)
-	require.NotNil(t, h.(*handler).cache)
+	handler, ok := NewHandler(&service{}, &mockCache{}).(*handler)
+	require.True(t, ok)
+	require.NotNil(t, handler.service)
+	require.NotNil(t, handler.cache)
 }
 
 func TestHandlerServeHTTP(t *testing.T) {

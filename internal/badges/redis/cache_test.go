@@ -12,16 +12,17 @@ import (
 
 func TestNewCache(t *testing.T) {
 	const testPrefix = "foo"
-	c := NewCache(
+	cache, ok := NewCache(
 		CacheConfig{
 			RedisPrefix:    testPrefix,
 			RedisEnableTLS: true,
 		},
-	)
-	require.Equal(t, testPrefix, c.(*cache).prefix)
-	require.NotNil(t, c.(*cache).redisClient)
-	require.NotNil(t, c.(*cache).getFn)
-	require.NotNil(t, c.(*cache).setFn)
+	).(*cache)
+	require.True(t, ok)
+	require.Equal(t, testPrefix, cache.prefix)
+	require.NotNil(t, cache.redisClient)
+	require.NotNil(t, cache.getFn)
+	require.NotNil(t, cache.setFn)
 }
 
 func TestSet(t *testing.T) {

@@ -10,8 +10,9 @@ import (
 )
 
 func TestNewService(t *testing.T) {
-	s := NewService()
-	require.NotNil(t, s.(*service).listCheckSuitesForRefFn)
+	service, ok := NewService().(*service)
+	require.True(t, ok)
+	require.NotNil(t, service.listCheckSuitesForRefFn)
 }
 
 func TestServiceCheckBadge(t *testing.T) {
