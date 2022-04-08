@@ -190,6 +190,14 @@ publish-chart:
 # Targets to facilitate hacking on Badgr.                                      #
 ################################################################################
 
+.PHONY: hack-kind-up
+hack-kind-up:
+	ctlptl apply -f hack/kind/cluster.yaml
+
+.PHONY: hack-kind-down
+hack-kind-down:
+	ctlptl delete -f hack/kind/cluster.yaml
+
 .PHONY: hack-build
 hack-build:
 	docker build \
