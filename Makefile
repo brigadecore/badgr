@@ -173,7 +173,7 @@ publish-chart:
 	'
 
 ################################################################################
-# Targets to facilitate hacking on Badgr.                                      #
+# Targets to facilitate hacking on Badgr                                       #
 ################################################################################
 
 .PHONY: hack-kind-up
