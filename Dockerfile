@@ -6,10 +6,11 @@ ARG TARGETOS
 ARG TARGETARCH
 ENV CGO_ENABLED=0
 
-WORKDIR /
-COPY . /
+WORKDIR /src
 COPY go.mod go.mod
 COPY go.sum go.sum
+RUN go mod download
+COPY . .
 
 RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build \
   -o bin/badgr \
@@ -18,6 +19,6 @@ RUN GOOS=$TARGETOS GOARCH=$TARGETARCH go build \
 
 FROM gcr.io/distroless/static:nonroot as final
 
-COPY --from=builder /bin/ /badgr/bin/
+COPY --from=builder /src/bin/ /badgr/bin/
 
 ENTRYPOINT ["/badgr/bin/badgr"]
