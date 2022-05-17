@@ -62,7 +62,7 @@ First, be sure you are using
 [Helm 3.7.0](https://github.com/helm/helm/releases/tag/v3.7.0) or greater and
 enable experimental OCI support:
 
-```console
+```shell
 $ export HELM_EXPERIMENTAL_OCI=1
 ```
 
@@ -72,7 +72,7 @@ create a chart values file with said config.
 Use the following command to extract the full set of configuration options into
 a file you can modify:
 
-```console
+```shell
 $ helm inspect values oci://ghcr.io/brigadecore/badgr \
     --version v1.1.1 > ~/badgr-values.yaml
 ```
@@ -88,7 +88,7 @@ Edit `~/badgr-values.yaml`, making the following changes:
 Save your changes to `~/badgr-values.yaml` and use the following command to
 install the gateway using the above customizations:
 
-```console
+```shell
 $ helm install badgr oci://ghcr.io/brigadecore/badgr \
     --version v1.1.1 \
     --create-namespace \
@@ -103,7 +103,7 @@ $ helm install badgr oci://ghcr.io/brigadecore/badgr \
 If you overrode defaults and set `service.type` to `LoadBalancer`, use this
 command to find the gateway's public IP address:
 
-```console
+```shell
 $ kubectl get svc badgr \
   --namespace badgr \
   --output jsonpath='{.status.loadBalancer.ingress[0].ip}'
